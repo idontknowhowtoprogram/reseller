@@ -57,7 +57,7 @@ export default async function HomePage() {
   // Transform today's deal product
   const todayDeal: Product | null = todayDealData
     ? {
-        ...todayDealData,
+        ...(todayDealData as any),
         images: Array.isArray((todayDealData as any).product_images)
           ? (todayDealData as any).product_images
               .filter((img: any) => img && img.image_url)
