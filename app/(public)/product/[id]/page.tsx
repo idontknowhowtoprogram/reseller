@@ -52,7 +52,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         : [],
     };
   })() as Product;
-  const settingsData: Settings = settings || {
+  const settingsData: Settings = (settings as Settings) || {
     id: 'default',
     whatsapp_number: '',
     store_name: 'Reseller',
@@ -68,6 +68,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
     accent_color: '#000000',
     background_color: '#FFFFFF',
     text_color: '#000000',
+    home_hero_title: 'Find Premium Items at Bargain Prices',
+    home_hero_subtitle: 'Carefully selected, lightly used items. Only one piece of each.',
+    home_cta_title: "Can't find what you're looking for?",
+    home_cta_description: "Contact us on WhatsApp and we'll help you find the perfect item.",
+    home_cta_button_text: 'Chat with Us',
   };
 
   // Get related products (same category, different product)
