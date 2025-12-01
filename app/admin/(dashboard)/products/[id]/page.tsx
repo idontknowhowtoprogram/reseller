@@ -38,25 +38,28 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
       notFound();
     }
 
+    // Type the product properly
+    const typedProduct = product as any;
+
     // Transform product data to match expected format
     const productData = {
-      id: product.id,
-      title: product.title || '',
-      description: product.description || null,
-      price: Number(product.price) || 0,
-      sale_price: product.sale_price ? Number(product.sale_price) : null,
-      quantity: product.quantity ?? 1,
-      condition: product.condition || 'used',
-      category: product.category || '',
-      product_code: product.product_code || '',
-      status: product.status || 'available',
-      is_published: product.is_published ?? true,
-      metadata: product.metadata || {},
-      images: Array.isArray((product as any).product_images) 
-        ? (product as any).product_images 
+      id: typedProduct.id,
+      title: typedProduct.title || '',
+      description: typedProduct.description || null,
+      price: Number(typedProduct.price) || 0,
+      sale_price: typedProduct.sale_price ? Number(typedProduct.sale_price) : null,
+      quantity: typedProduct.quantity ?? 1,
+      condition: typedProduct.condition || 'used',
+      category: typedProduct.category || '',
+      product_code: typedProduct.product_code || '',
+      status: typedProduct.status || 'available',
+      is_published: typedProduct.is_published ?? true,
+      metadata: typedProduct.metadata || {},
+      images: Array.isArray(typedProduct.product_images) 
+        ? typedProduct.product_images 
         : [],
-      created_at: product.created_at,
-      updated_at: product.updated_at,
+      created_at: typedProduct.created_at,
+      updated_at: typedProduct.updated_at,
     };
 
     return (
