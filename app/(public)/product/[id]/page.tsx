@@ -41,14 +41,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .single();
 
   // Transform product data to match expected format
-  const productData: Product = {
-    ...product,
-    images: Array.isArray((product as any).product_images)
-      ? (product as any).product_images
-          .filter((img: any) => img && img.image_url)
-          .sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0))
-      : [],
-  } as Product;
+  const productData: Product = (() => {
+    const productObj: any = product;
+    return {
+      ...productObj,
+      images: Array.isArray(productObj.product_images)
+        ? productObj.product_images
+            .filter((img: any) => img && img.image_url)
+            .sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0))
+        : [],
+    };
+  })() as Product;
   const settingsData: Settings = settings || {
     id: 'default',
     whatsapp_number: '',
