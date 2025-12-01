@@ -133,8 +133,9 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     .select('category')
     .eq('is_published', true);
 
+  const typedCategoriesData = (categoriesData || []) as any[];
   const categories = Array.from(
-    new Set(categoriesData?.map((p) => p.category) || [])
+    new Set(typedCategoriesData.map((p: any) => p.category).filter(Boolean))
   ).sort();
 
   // Get unique brands
@@ -144,8 +145,9 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     .eq('is_published', true)
     .not('brand', 'is', null);
 
+  const typedBrandsData = (brandsData || []) as any[];
   const brands = Array.from(
-    new Set(brandsData?.map((p) => p.brand).filter(Boolean) || [])
+    new Set(typedBrandsData.map((p: any) => p.brand).filter(Boolean))
   ).sort();
 
   // Transform products to match Product type structure (product_images -> images)
