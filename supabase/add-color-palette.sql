@@ -1,0 +1,8 @@
+-- Add color palette columns to settings table
+ALTER TABLE settings 
+ADD COLUMN IF NOT EXISTS primary_color TEXT DEFAULT '#000000',
+ADD COLUMN IF NOT EXISTS secondary_color TEXT DEFAULT '#F5F5F5',
+ADD COLUMN IF NOT EXISTS accent_color TEXT DEFAULT '#000000',
+ADD COLUMN IF NOT EXISTS background_color TEXT DEFAULT '#FFFFFF',
+ADD COLUMN IF NOT EXISTS text_color TEXT DEFAULT '#000000';
+

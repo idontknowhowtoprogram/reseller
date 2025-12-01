@@ -1,0 +1,41 @@
+import { createClient } from '@/lib/supabase/server';
+import { SettingsForm } from '@/components/admin/SettingsForm';
+
+export default async function AdminSettingsPage() {
+  const supabase = await createClient();
+
+  const { data: settings } = await supabase
+    .from('settings')
+    .select('*')
+    .single();
+
+  const defaultSettings = {
+    id: '00000000-0000-0000-0000-000000000001',
+    whatsapp_number: '',
+    store_name: 'Reseller',
+    currency: 'AED',
+    delivery_info: null,
+    about_page: null,
+    free_delivery_threshold: 70,
+    discount_150_threshold: 150,
+    discount_200_threshold: 200,
+    delivery_charge: 25,
+    primary_color: '#000000',
+    secondary_color: '#F5F5F5',
+    accent_color: '#000000',
+    background_color: '#FFFFFF',
+    text_color: '#000000',
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold">Settings</h1>
+        <p className="text-muted-foreground">Manage your store settings</p>
+      </div>
+
+      <SettingsForm settings={settings || defaultSettings} />
+    </div>
+  );
+}
+

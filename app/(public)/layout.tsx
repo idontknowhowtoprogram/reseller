@@ -1,33 +1,16 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingCartButton } from "@/components/cart/FloatingCartButton";
-import { createClient } from "@/lib/supabase/server";
-import { Settings } from "@/types";
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
+import { FloatingCartButton } from '@/components/cart/FloatingCartButton';
+import { TrustBanner } from '@/components/hero/TrustBanner';
+import { ColorTheme } from '@/components/ColorTheme';
+import { createClient } from '@/lib/supabase/server';
+import { Settings } from '@/types';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Reseller - Quality Pre-owned Items",
-  description: "Discover quality pre-owned items at great prices",
-};
-
-export default async function RootLayout({
+export default async function PublicLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   const supabase = await createClient();
   
   // Get settings with error handling
@@ -69,13 +52,14 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-        <Toaster />
-      </body>
-    </html>
+    <>
+      <ColorTheme settings={settings} />
+      <Navbar settings={settings} />
+      <TrustBanner />
+      <main className="min-h-screen">{children}</main>
+      <Footer />
+      <FloatingCartButton settings={settings} />
+    </>
   );
 }
+
