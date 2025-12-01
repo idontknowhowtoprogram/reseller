@@ -101,7 +101,8 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         .from('products')
         .select('title, product_code, brand, is_published, status')
         .limit(10);
-      console.log('📋 All products in DB (first 10):', allProducts?.map(p => ({
+      const typedAllProducts = (allProducts || []) as any[];
+      console.log('📋 All products in DB (first 10):', typedAllProducts.map((p: any) => ({
         title: p.title,
         code: p.product_code,
         brand: p.brand,
@@ -117,7 +118,8 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         .eq('is_published', true)
         .neq('status', 'sold')
         .limit(5);
-      console.log('🔍 Products matching title search:', titleMatch?.map(p => ({
+      const typedTitleMatch = (titleMatch || []) as any[];
+      console.log('🔍 Products matching title search:', typedTitleMatch.map((p: any) => ({
         title: p.title,
         code: p.product_code,
         brand: p.brand
