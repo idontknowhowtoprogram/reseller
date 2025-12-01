@@ -56,14 +56,17 @@ export default async function HomePage() {
 
   // Transform today's deal product
   const todayDeal: Product | null = todayDealData
-    ? {
-        ...(todayDealData as any),
-        images: Array.isArray((todayDealData as any).product_images)
-          ? (todayDealData as any).product_images
-              .filter((img: any) => img && img.image_url)
-              .sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0))
-          : [],
-      }
+    ? (() => {
+        const product: any = todayDealData;
+        return {
+          ...product,
+          images: Array.isArray(product.product_images)
+            ? product.product_images
+                .filter((img: any) => img && img.image_url)
+                .sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0))
+            : [],
+        };
+      })()
     : null;
 
   // Get some product images for background collage (blurred)
