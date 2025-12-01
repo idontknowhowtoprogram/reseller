@@ -29,8 +29,11 @@ export default async function AdminProductsPage({ searchParams }: ProductsPagePr
 
   const { data: products } = await query;
 
+  // Type the products array properly
+  const typedProducts = (products || []) as any[];
+
   // Transform products to match Product type structure
-  const transformedProducts = (products || []).map((product: any) => ({
+  const transformedProducts = typedProducts.map((product: any) => ({
     ...product,
     images: Array.isArray(product.product_images)
       ? product.product_images.sort((a: any, b: any) => a.sort_order - b.sort_order)

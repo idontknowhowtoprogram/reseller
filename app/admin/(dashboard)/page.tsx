@@ -20,6 +20,9 @@ export default async function AdminDashboard() {
     .order('created_at', { ascending: false })
     .limit(5);
 
+  // Type the recent products array properly
+  const typedRecentProducts = (recentProducts || []) as any[];
+
   const totalProducts = productsResult.count || 0;
   const soldProducts = soldResult.count || 0;
   const pendingOffers = offersResult.count || 0;
@@ -86,9 +89,9 @@ export default async function AdminDashboard() {
           <CardDescription>Latest products added to your store</CardDescription>
         </CardHeader>
         <CardContent>
-          {recentProducts && recentProducts.length > 0 ? (
+          {typedRecentProducts && typedRecentProducts.length > 0 ? (
             <div className="space-y-2">
-              {recentProducts.map((product: any) => (
+              {typedRecentProducts.map((product: any) => (
                 <div key={product.id} className="flex items-center justify-between p-2 rounded-md hover:bg-muted">
                   <div>
                     <p className="font-medium">{product.title}</p>

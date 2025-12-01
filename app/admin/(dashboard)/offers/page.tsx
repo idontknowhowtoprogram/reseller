@@ -12,6 +12,9 @@ export default async function AdminOffersPage() {
     `)
     .order('created_at', { ascending: false });
 
+  // Type the offers array properly
+  const typedOffers = (offers || []) as any[];
+
   return (
     <div className="space-y-6">
       <div>
@@ -19,7 +22,7 @@ export default async function AdminOffersPage() {
         <p className="text-muted-foreground">Manage customer offers</p>
       </div>
 
-      <OffersTable offers={offers || []} />
+      <OffersTable offers={typedOffers} />
     </div>
   );
 }
