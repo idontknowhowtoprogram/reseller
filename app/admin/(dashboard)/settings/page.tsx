@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { SettingsForm } from '@/components/admin/SettingsForm';
+import { Settings } from '@/types';
 
 export default async function AdminSettingsPage() {
   const supabase = await createClient();
@@ -9,7 +10,7 @@ export default async function AdminSettingsPage() {
     .select('*')
     .single();
 
-  const defaultSettings = {
+  const defaultSettings: Settings = {
     id: '00000000-0000-0000-0000-000000000001',
     whatsapp_number: '',
     store_name: 'Reseller',
@@ -25,6 +26,11 @@ export default async function AdminSettingsPage() {
     accent_color: '#000000',
     background_color: '#FFFFFF',
     text_color: '#000000',
+    home_hero_title: 'Find Premium Items at Bargain Prices',
+    home_hero_subtitle: 'Carefully selected, lightly used items. Only one piece of each.',
+    home_cta_title: "Can't find what you're looking for?",
+    home_cta_description: "Contact us on WhatsApp and we'll help you find the perfect item.",
+    home_cta_button_text: 'Chat with Us',
   };
 
   return (
@@ -34,7 +40,7 @@ export default async function AdminSettingsPage() {
         <p className="text-muted-foreground">Manage your store settings</p>
       </div>
 
-      <SettingsForm settings={settings || defaultSettings} />
+      <SettingsForm settings={settings ? (settings as unknown as Settings) : defaultSettings} />
     </div>
   );
 }

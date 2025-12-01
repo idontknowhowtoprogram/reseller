@@ -44,7 +44,7 @@ export default async function PublicLayout({
       .single();
 
     if (settingsData) {
-      settings = settingsData;
+      settings = settingsData as unknown as Settings;
     }
   } catch (error) {
     // Use default settings if there's an error
