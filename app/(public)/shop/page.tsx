@@ -83,13 +83,16 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     console.error('❌ Error details:', JSON.stringify(productsError, null, 2));
   }
   
+  // Type the products array properly
+  const typedProducts = (products || []) as any[];
+  
   // Debug logging
-  console.log('📊 Products count:', products?.length || 0);
+  console.log('📊 Products count:', typedProducts?.length || 0);
   if (params.search) {
     console.log('✅ Search term used:', params.search);
-    if (products && products.length > 0) {
-      console.log('✅ First result:', products[0]?.title);
-      console.log('✅ All product titles:', products.map(p => p.title).slice(0, 5));
+    if (typedProducts && typedProducts.length > 0) {
+      console.log('✅ First result:', typedProducts[0]?.title);
+      console.log('✅ All product titles:', typedProducts.map((p: any) => p.title).slice(0, 5));
     } else {
       console.log('⚠️ No products found for search term:', params.search);
       
@@ -144,7 +147,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   ).sort();
 
   // Transform products to match Product type structure (product_images -> images)
-  const productList: Product[] = (products || []).map((product: any) => ({
+  const productList: Product[] = (typedProducts || []).map((product: any) => ({
     ...product,
     images: Array.isArray(product.product_images)
       ? product.product_images
