@@ -137,7 +137,7 @@ export default async function HomePage() {
                 </Link>
                 {settingsData?.whatsapp_number && (
                   <Link
-                    href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, '')}`}
+                    href={`https://wa.me/${settingsData.whatsapp_number.replace(/\D/g, '')}`}
                     target="_blank"
                   >
                     <Button size="lg" variant="outline">
@@ -226,10 +226,10 @@ export default async function HomePage() {
             <p className="text-muted-foreground text-lg">
               Contact us on WhatsApp and we'll help you find the perfect item.
             </p>
-            {settings?.whatsapp_number && (
+            {settingsData?.whatsapp_number && (
               <div className="flex justify-center pt-2">
                 <Link
-                  href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, '')}`}
+                  href={`https://wa.me/${settingsData.whatsapp_number.replace(/\D/g, '')}`}
                   target="_blank"
                 >
                   <Button size="lg">
