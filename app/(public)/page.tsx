@@ -43,6 +43,8 @@ export default async function HomePage() {
     .from('settings')
     .select('whatsapp_number, store_name, currency')
     .single();
+  
+  const settingsData = settings as { whatsapp_number?: string; store_name?: string; currency?: string } | null;
 
   // Transform products to match Product type structure (product_images -> images)
   const featuredProducts: Product[] = (products || []).map((product: any) => ({
@@ -120,7 +122,7 @@ export default async function HomePage() {
                 <div className="max-w-md mx-auto lg:mx-0">
                   <TodayDealCard
                     product={todayDeal}
-                    currency={settings?.currency || 'AED'}
+                    currency={settingsData?.currency || 'AED'}
                   />
                 </div>
               )}
@@ -133,7 +135,7 @@ export default async function HomePage() {
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                {settings?.whatsapp_number && (
+                {settingsData?.whatsapp_number && (
                   <Link
                     href={`https://wa.me/${settings.whatsapp_number.replace(/\D/g, '')}`}
                     target="_blank"
@@ -183,7 +185,7 @@ export default async function HomePage() {
                               {product.title}
                             </p>
                             <p className="text-white/90 text-xs">
-                              {product.sale_price || product.price} {settings?.currency || 'AED'}
+                              {product.sale_price || product.price} {settingsData?.currency || 'AED'}
                             </p>
                           </div>
                         </div>
