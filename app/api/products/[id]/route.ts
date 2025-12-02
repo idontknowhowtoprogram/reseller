@@ -63,8 +63,8 @@ export async function PATCH(
       body.sale_price = parseFloat(body.sale_price);
     }
 
-    const { data, error } = await supabase
-      .from('products')
+    const query = supabase.from('products') as any;
+    const { data, error } = await query
       .update(body)
       .eq('id', id)
       .select()
