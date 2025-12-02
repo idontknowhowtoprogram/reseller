@@ -78,8 +78,8 @@ export async function POST(request: NextRequest) {
       is_published,
     } = body;
 
-    const { data, error } = await supabase
-      .from('products')
+    const query = supabase.from('products') as any;
+    const { data, error } = await query
       .insert({
         title,
         description,
