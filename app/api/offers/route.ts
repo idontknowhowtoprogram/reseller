@@ -61,13 +61,13 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const productId = searchParams.get('product_id');
 
-    let query = supabase
+    let query = (supabase
       .from('offers')
       .select(`
         *,
         products (*)
       `)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })) as any;
 
     if (productId) {
       query = query.eq('product_id', productId);
