@@ -86,8 +86,12 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
     }
   };
 
-  const startEditing = (productId: string, field: EditingState['field'], currentValue: any) => {
-    setEditing({ productId, field, value: currentValue });
+  const startEditing = (
+    productId: string,
+    field: EditingState['field'],
+    currentValue: any
+  ) => {
+    setEditing({ productId, field, value: currentValue ?? '' });
   };
 
   const cancelEditing = () => {
@@ -100,11 +104,12 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
     setSaving(editing.productId);
     try {
       const updateData: any = {};
-      
+
       if (editing.field === 'price' || editing.field === 'sale_price') {
-        const numValue = editing.value === '' || editing.value === null 
-          ? null 
-          : parseFloat(editing.value.toString());
+        const numValue =
+          editing.value === '' || editing.value === null
+            ? null
+            : parseFloat(String(editing.value));
         updateData[editing.field] = numValue;
       } else {
         updateData[editing.field] = editing.value;
@@ -120,12 +125,9 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
         throw new Error('Failed to update product');
       }
 
-      // Update local state
       setProducts(
         products.map((p) =>
-          p.id === editing.productId
-            ? { ...p, ...updateData }
-            : p
+          p.id === editing.productId ? { ...p, ...updateData } : p
         )
       );
 
@@ -144,7 +146,9 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
       <div className="text-center py-12">
         <p className="text-muted-foreground">No products found</p>
         <Link href="/admin/products/new">
-          <Button className="mt-4 hover:bg-primary/90 transition-colors">Add Your First Product</Button>
+          <Button className="mt-4 hover:bg-primary/90 transition-colors">
+            Add Your First Product
+          </Button>
         </Link>
       </div>
     );
@@ -181,35 +185,38 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                         fill
                         className="object-cover"
                         sizes="64px"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                        }}
                       />
                     ) : (
                       <span className="text-xs text-muted-foreground">No image</span>
                     )}
                   </div>
                 </TableCell>
+
                 <TableCell className="font-medium">{product.title}</TableCell>
+
                 <TableCell>
                   <code className="text-xs bg-muted px-2 py-1 rounded">
                     {product.product_code}
                   </code>
                 </TableCell>
+
+                {/* PRICE + SALE PRICE */}
                 <TableCell>
-                  {isEditing && (editing.field === 'price' || editing.field === 'sale_price') ? (
+                  {isEditing &&
+                  (editing?.field === 'price' || editing?.field === 'sale_price') ? (
                     <div className="flex items-center gap-2">
                       <Input
                         type="number"
                         step="0.01"
-                        value={editing.value ?? ""}
+                        value={editing?.value ?? ''}
                         onChange={(e) =>
-                          setEditing({ ...editing, value: e.target.value })
+                          setEditing({ ...editing!, value: e.target.value })
                         }
                         className="w-24 h-8"
                         autoFocus
-                        placeholder={editing.field === 'sale_price' ? 'Sale price' : 'Price'}
+                        placeholder={
+                          editing?.field === 'sale_price' ? 'Sale price' : 'Price'
+                        }
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') saveEdit();
                           if (e.key === 'Escape') cancelEditing();
@@ -236,14 +243,18 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                     </div>
                   ) : (
                     <div className="space-y-1">
+                      {/* Main price */}
                       <div
                         className="cursor-pointer hover:bg-muted px-2 py-1 rounded transition-colors inline-block"
-                        onClick={() => startEditing(product.id, 'price', product.price)}
-                        title="Click to edit price"
+                        onClick={() =>
+                          startEditing(product.id, 'price', product.price)
+                        }
                       >
-                        {product.sale_price ? (
+                        {product.sale_price != null ? (
                           <div>
-                            <span className="text-primary font-bold">{product.sale_price} AED</span>
+                            <span className="text-primary font-bold">
+                              {product.sale_price} AED
+                            </span>
                             <span className="text-muted-foreground line-through text-sm ml-2">
                               {product.price} AED
                             </span>
@@ -252,11 +263,14 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                           <span>{product.price} AED</span>
                         )}
                       </div>
-                      {product.sale_price ? (
+
+                      {/* Sale price */}
+                      {product.sale_price != null ? (
                         <div
                           className="cursor-pointer hover:bg-muted px-2 py-1 rounded transition-colors text-xs text-muted-foreground"
-                          onClick={() => startEditing(product.id, 'sale_price', product.sale_price)}
-                          title="Click to edit sale price"
+                          onClick={() =>
+                            startEditing(product.id, 'sale_price', product.sale_price)
+                          }
                         >
                           Sale: {product.sale_price} AED
                         </div>
@@ -264,7 +278,6 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                         <div
                           className="cursor-pointer hover:bg-muted px-2 py-1 rounded transition-colors text-xs text-muted-foreground italic"
                           onClick={() => startEditing(product.id, 'sale_price', '')}
-                          title="Click to add sale price"
                         >
                           + Add sale price
                         </div>
@@ -272,17 +285,19 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                     </div>
                   )}
                 </TableCell>
+
+                {/* STATUS */}
                 <TableCell>
-                  {isEditing && editing.field === 'status' ? (
+                  {isEditing && editing?.field === 'status' ? (
                     <div className="flex items-center gap-2">
                       <Select
-                        value={editing.value as string}
+                        value={typeof editing?.value === 'string' ? editing.value : ''}
                         onValueChange={(value) =>
-                          setEditing({ ...editing, value })
+                          setEditing({ ...editing!, value })
                         }
                       >
                         <SelectTrigger className="w-32 h-8">
-                          <SelectValue />
+                          <SelectValue placeholder="Status" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="available">Available</SelectItem>
@@ -290,6 +305,7 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                           <SelectItem value="sold">Sold</SelectItem>
                         </SelectContent>
                       </Select>
+
                       <Button
                         size="icon"
                         variant="ghost"
@@ -312,8 +328,9 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                   ) : (
                     <div
                       className="cursor-pointer inline-block"
-                      onClick={() => startEditing(product.id, 'status', product.status)}
-                      title="Click to edit status"
+                      onClick={() =>
+                        startEditing(product.id, 'status', product.status)
+                      }
                     >
                       <Badge
                         variant={
@@ -323,24 +340,26 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                             ? 'secondary'
                             : 'default'
                         }
-                        className="capitalize hover:opacity-80 transition-opacity"
+                        className="capitalize"
                       >
                         {product.status}
                       </Badge>
                     </div>
                   )}
                 </TableCell>
+
+                {/* CATEGORY */}
                 <TableCell>
-                  {isEditing && editing.field === 'category' ? (
+                  {isEditing && editing?.field === 'category' ? (
                     <div className="flex items-center gap-2">
                       <Select
-                        value={editing.value as string}
+                        value={typeof editing?.value === 'string' ? editing.value : ''}
                         onValueChange={(value) =>
-                          setEditing({ ...editing, value })
+                          setEditing({ ...editing!, value })
                         }
                       >
                         <SelectTrigger className="w-48 h-8">
-                          <SelectValue />
+                          <SelectValue placeholder="Category" />
                         </SelectTrigger>
                         <SelectContent>
                           {CATEGORIES.map((cat) => (
@@ -350,6 +369,7 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                           ))}
                         </SelectContent>
                       </Select>
+
                       <Button
                         size="icon"
                         variant="ghost"
@@ -372,47 +392,37 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                   ) : (
                     <span
                       className="cursor-pointer hover:bg-muted px-2 py-1 rounded transition-colors inline-block"
-                      onClick={() => startEditing(product.id, 'category', product.category)}
-                      title="Click to edit category"
+                      onClick={() =>
+                        startEditing(product.id, 'category', product.category)
+                      }
                     >
                       {product.category}
                     </span>
                   )}
                 </TableCell>
+
+                {/* ACTIONS */}
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <Link 
-                      href={`/product/${product.id}`} 
-                      target="_blank" 
-                      className="inline-block rounded-md hover:bg-accent/80 transition-colors duration-200 cursor-pointer"
-                    >
-                      <Button 
-                        variant="ghost" 
-                        size="icon"
-                        className="hover:bg-transparent cursor-pointer"
-                      >
+                    <Link href={`/product/${product.id}`} target="_blank">
+                      <Button variant="ghost" size="icon">
                         <Eye className="h-4 w-4" />
                       </Button>
                     </Link>
-                    <Link 
-                      href={`/admin/products/${product.id}`} 
-                      className="inline-block rounded-md hover:bg-accent/80 transition-colors duration-200 cursor-pointer"
-                    >
-                      <Button 
-                        variant="ghost" 
-                        size="icon"
-                        className="hover:bg-transparent cursor-pointer"
-                      >
+
+                    <Link href={`/admin/products/${product.id}`}>
+                      <Button variant="ghost" size="icon">
                         <Edit className="h-4 w-4" />
                       </Button>
                     </Link>
+
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button
                           variant="ghost"
                           size="icon"
                           disabled={deletingId === product.id}
-                          className="hover:bg-destructive/10 hover:text-destructive transition-colors duration-200 disabled:hover:bg-transparent disabled:hover:text-current cursor-pointer"
+                          className="hover:bg-destructive/10 hover:text-destructive"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -421,7 +431,8 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                         <AlertDialogHeader>
                           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            This will permanently delete the product "{product.title}". This action cannot be undone.
+                            This will permanently delete the product "
+                            {product.title}". This action cannot be undone.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
