@@ -174,7 +174,7 @@ export function BulkProductForm() {
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
-        error.errors.forEach((err) => {
+        error.issues.forEach((err) => {
           const path = err.path[0] as string;
           errors[path] = err.message;
         });
