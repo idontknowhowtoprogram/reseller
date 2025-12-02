@@ -203,7 +203,7 @@ export function ProductsTable({ products: initialProducts }: ProductsTableProps)
                       <Input
                         type="number"
                         step="0.01"
-                        value={editing.value}
+                        value={editing.value ?? ""}
                         onChange={(e) =>
                           setEditing({ ...editing, value: e.target.value })
                         }
