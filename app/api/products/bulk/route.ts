@@ -9,6 +9,7 @@ interface BulkProductData {
   sale_price?: number | null;
   condition: string;
   category: string;
+  brand?: string | null;
   product_code: string;
   status: string;
   is_published: boolean;
