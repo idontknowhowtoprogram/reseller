@@ -48,14 +48,14 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="group overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
       <Link href={`/product/${product.id}`}>
-        <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+        <div className="relative aspect-square overflow-hidden bg-muted">
           {mainImage && typeof mainImage === 'string' ? (
             <Image
               src={mainImage}
               alt={product.title}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-300"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 768px) 170px, (max-width: 1200px) 200px, 250px"
               onError={(e) => {
                 // Hide image on error
                 const target = e.target as HTMLImageElement;
@@ -83,15 +83,15 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
           <Badge
             variant="outline"
-            className="absolute top-1 left-1 capitalize text-[10px] px-1 py-0 leading-tight"
+            className="absolute top-2 left-2 capitalize text-[11px] px-2 py-0.5 leading-tight bg-background/90 backdrop-blur-sm"
           >
             {product.condition.replace('_', ' ')}
           </Badge>
         </div>
       </Link>
-      <CardContent className="p-1.5 flex-1 flex flex-col">
+      <CardContent className="p-2.5 md:p-1.5 flex-1 flex flex-col gap-1">
         <Link href={`/product/${product.id}`}>
-          <h3 className="font-semibold text-xs line-clamp-2 mb-0 hover:text-primary transition-colors leading-tight">
+          <h3 className="font-semibold text-sm md:text-xs line-clamp-2 mb-0 hover:text-primary transition-colors leading-tight">
             {product.title}
           </h3>
         </Link>
@@ -100,30 +100,30 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.brand}
           </p>
         )}
-        <p className="text-xs text-muted-foreground mb-0.5">
+        <p className="text-xs text-muted-foreground mb-0">
           Code: {product.product_code}
         </p>
         <PriceDisplay
           price={product.price}
           salePrice={product.sale_price}
-          className="mb-0.5"
+          className="mb-0"
         />
       </CardContent>
-      <CardFooter className="p-1.5 pt-0 flex gap-1 mt-auto">
+      <CardFooter className="p-2.5 md:p-1.5 pt-0 flex gap-2 md:gap-1 mt-auto">
         <Link href={`/product/${product.id}`} className="flex-1">
-          <Button variant="outline" className="w-full h-6 text-[10px] px-1.5" size="sm">
-            <Eye className="h-2.5 w-2.5 mr-0.5" />
+          <Button variant="outline" className="w-full h-7 md:h-6 text-xs md:text-[10px] px-2 md:px-1.5" size="sm">
+            <Eye className="h-3 w-3 md:h-2.5 md:w-2.5 mr-1 md:mr-0.5" />
             View
           </Button>
         </Link>
         <Button
           variant="default"
-          className="flex-1 h-6 text-[10px] px-1.5"
+          className="flex-1 h-7 md:h-6 text-xs md:text-[10px] px-2 md:px-1.5"
           size="sm"
           onClick={handleAddToCart}
           disabled={cartDisabled}
         >
-          <ShoppingCart className="h-2.5 w-2.5 mr-0.5" />
+          <ShoppingCart className="h-3 w-3 md:h-2.5 md:w-2.5 mr-1 md:mr-0.5" />
           {buttonText}
         </Button>
       </CardFooter>
