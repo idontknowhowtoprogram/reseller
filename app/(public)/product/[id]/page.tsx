@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { WhatsAppButton } from '@/components/shared/WhatsAppButton';
 import { OfferModal } from '@/components/product/OfferModal';
 import { ReservedNotificationForm } from '@/components/product/ReservedNotificationForm';
-import { ProductCard } from '@/components/product/ProductCard';
+import { RelatedProductsSlider } from '@/components/product/RelatedProductsSlider';
 import { Product, Settings } from '@/types';
 import { MessageCircle } from 'lucide-react';
 import { AddToCartButton } from '@/components/product/AddToCartButton';
@@ -215,13 +215,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
       {/* Related Products */}
       {relatedProducts && relatedProducts.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6 text-center lg:text-left">Related Products</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {relatedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4 text-center lg:text-left">Related Products</h2>
+          <RelatedProductsSlider products={relatedProducts} />
         </div>
       )}
     </div>
