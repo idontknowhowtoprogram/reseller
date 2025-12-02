@@ -74,8 +74,8 @@ export function ImageUploader({
       const supabase = createClient();
 
       // Delete from database
-      const { error: dbError } = await supabase
-        .from('product_images')
+      const query = (supabase.from('product_images') as any);
+      const { error: dbError } = await query
         .delete()
         .eq('id', imageId);
 
