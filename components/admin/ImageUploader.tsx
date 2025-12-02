@@ -123,12 +123,12 @@ export function ImageUploader({
       try {
         const supabase = createClient();
         await Promise.all(
-          updatedImages.map((img, index) =>
-            supabase
-              .from('product_images')
+          updatedImages.map((img, index) => {
+            const query = (supabase.from('product_images') as any);
+            return query
               .update({ sort_order: index })
-              .eq('id', img.id)
-          )
+              .eq('id', img.id);
+          })
         );
       } catch (error) {
         console.error('Error updating sort order:', error);
