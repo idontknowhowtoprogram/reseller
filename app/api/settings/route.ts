@@ -57,8 +57,8 @@ export async function PATCH(request: NextRequest) {
       body.delivery_charge = parseFloat(body.delivery_charge);
     }
 
-    const { data, error } = await supabase
-      .from('settings')
+    const query = supabase.from('settings') as any;
+    const { data, error } = await query
       .update(body)
       .eq('id', '00000000-0000-0000-0000-000000000001')
       .select()
