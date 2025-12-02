@@ -34,7 +34,7 @@ const productSchema = z.object({
   product_code: z.string().optional(), // Auto-generated, optional in form
   status: z.enum(['available', 'reserved', 'sold']),
   is_published: z.boolean(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 });
 
 // Predefined categories
