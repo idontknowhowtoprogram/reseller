@@ -17,8 +17,8 @@ export async function POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data, error } = await supabase
-      .from('offers')
+    const query = supabase.from('offers') as any;
+    const { data, error } = await query
       .insert({
         product_id: validatedData.product_id,
         name: validatedData.name,
