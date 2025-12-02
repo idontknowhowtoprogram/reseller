@@ -25,13 +25,30 @@ export function Navbar({ settings }: NavbarProps) {
     whatsapp_number: '',
     store_name: 'Reseller',
     currency: 'AED',
+  
     delivery_info: null,
     about_page: null,
+  
     free_delivery_threshold: 70,
     discount_150_threshold: 150,
     discount_200_threshold: 200,
     delivery_charge: 25,
+  
+    // Colors
+    primary_color: '#000000',
+    secondary_color: '#ffffff',
+    accent_color: '#f5f5f5',
+    background_color: '#ffffff',
+    text_color: '#000000',
+  
+    // Homepage defaults
+    home_hero_title: 'Find Premium Items at Bargain Prices',
+    home_hero_subtitle: 'Only one piece each. Grab it before it’s gone.',
+    home_cta_title: 'Shop Deals Now',
+    home_cta_description: 'Carefully selected items, all priced to sell.',
+    home_cta_button_text: 'Browse Items',
   };
+  
 
   const finalSettings = settings || defaultSettings;
 
