@@ -100,8 +100,8 @@ export async function POST(request: NextRequest) {
         const productCode = productData.product_code || generateProductCode();
 
         // Create product
-        const { data: product, error: productError } = await serviceClient
-          .from('products')
+        const query = (serviceClient.from('products') as any);
+        const { data: product, error: productError } = await query
           .insert({
             title: productData.title,
             description: productData.description || null,

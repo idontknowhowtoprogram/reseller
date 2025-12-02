@@ -70,8 +70,8 @@ export async function POST(
         .eq('product_id', productId);
 
       // Insert into database (use service client to bypass RLS)
-      const { data, error } = await serviceClient
-        .from('product_images')
+      const query = (serviceClient.from('product_images') as any);
+      const { data, error } = await query
         .insert({
           product_id: productId,
           image_url: publicUrl,
