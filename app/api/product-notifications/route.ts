@@ -16,8 +16,8 @@ export async function POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data, error } = await supabase
-      .from('product_notifications')
+    const query = supabase.from('product_notifications') as any;
+    const { data, error } = await query
       .insert({
         product_id: validatedData.product_id,
         customer_name: validatedData.customer_name,
